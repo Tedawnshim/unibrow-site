@@ -24,6 +24,8 @@ Started 19-10-2026. Tick things off as they're done. Anything in [brackets] on t
 
 ## Netlify
 
+- [x] Preview branch set up 19-10-2026: `preview` builds to https://preview--unibrow-studio.netlify.app; merge into `main` when the team approves
+
 - [ ] Connect the GitHub repo; the build settings come from `netlify.toml`
 - [ ] Forms → enable form detection; add an email notification to contact@unibrow.studio
 - [ ] Send a test enquiry from the `.netlify.app` address
