@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, LAUNCHED } from '../data/site';
+import { site, IS_LIVE } from '../data/site';
 ---
 <Base title="Thank you" description="Thanks for writing to Unibrow Studio." showContact={false}>
   <section class="wrap section stack" style="gap: 20px; min-height: 50vh">
@@ -13,7 +13,7 @@ import { site, LAUNCHED } from '../data/site';
     </div>
     <p class="hand">we begin by listening.</p>
   </section>
-  {LAUNCHED && (
+  {IS_LIVE && (
     <script is:inline>
       // Counts an enquiry in Google Analytics (mark "generate_lead" as a key event in GA4).
       if (window.gtag) window.gtag('event', 'generate_lead', { form: 'contact' });

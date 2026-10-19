@@ -11,7 +11,7 @@ import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site, LAUNCHED } from '../data/site';
+import { site, IS_LIVE } from '../data/site';
 import defaultShare from '../assets/site/share.jpg';
 
 interface Props {
@@ -70,7 +70,7 @@ const localBusiness = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {!LAUNCHED && <meta name="robots" content="noindex, nofollow" />}
+    {!IS_LIVE && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -89,7 +89,7 @@ const localBusiness = {
     <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
-    {LAUNCHED && import.meta.env.PROD && (
+    {IS_LIVE && (
       <>
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4}`}></script>
         <script is:inline define:vars={{ id: site.ga4 }}>

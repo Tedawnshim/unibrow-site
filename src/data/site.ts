@@ -4,6 +4,12 @@
 // While false: search engines are told not to index the site, and Google Analytics does not load.
 export const LAUNCHED = false;
 
+// Netlify tells each build which copy it is: 'production' (the main branch),
+// 'branch-deploy' (e.g. the preview branch) or 'deploy-preview'.
+// Only the main branch, after launch, is shown to search engines and counted in Analytics.
+const context = (globalThis as any).process?.env?.CONTEXT ?? 'local';
+export const IS_LIVE = LAUNCHED && context === 'production';
+
 export const site = {
   name: 'Unibrow Studio',
   legalName: 'Rough Cut Productions Pvt. Ltd.',
