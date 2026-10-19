@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { lines, site } from '../../data/site';
+import { getProjects } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const line = lines[d.line];
+const kicker = [d.client !== 'Unibrow Originals' ? d.client : 'Unibrow Originals', line.label, d.year].filter(Boolean).join(' · ');
+const hero = d.hero ?? d.cover;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.title,
+  description: d.summary,
+  creator: { '@id': `${site.url}/#studio` },
+  ...(d.year && /^\d{4}$/.test(d.year) ? { dateCreated: d.year } : {}),
+};
+---
+<Base title={`${d.title}: ${d.format}`} description={d.description ?? d.summary} image={d.cover} type="article" jsonLd={jsonLd}>
+  <article>
+    <header class="wrap stack" style="gap: 16px; padding-block: 40px 32px">
+      <nav aria-label="Breadcrumb" class="small"><a href="/portfolio/">Work</a> / <a href={`/portfolio/#${d.line}`}>{line.label}</a></nav>
+      <p class="kicker">{kicker}</p>
+      <h1 class="h-page">{d.title}</h1>
+      <p class="lead">{d.summary}</p>
+      {d.facts.length > 0 && (
+        <dl class="facts" style="margin-top: 16px">
+          {d.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
+        </dl>
+      )}
+    </header>
+
+    <div class="wrap">
+      <Image src={hero} alt={d.heroAlt} widths={[640, 1024, 1440, 2000]} sizes="(min-width: 1440px) 1248px, 92vw" loading="eager" fetchpriority="high" class="cs-hero" />
+    </div>
+
+    <div class="wrap section">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {d.results.length > 0 && (
+      <section class="on-blue">
+        <div class="wrap section stack" style="gap: 28px">
+          <h2 class="h-section" style="color: var(--primary)">What it did</h2>
+          <div class="grid grid--small">
+            {d.results.map((r) => (
+              <div class="stack" style="gap: 6px; border-top: 1.5px solid var(--primary); padding-top: 14px">
+                <span style="font-family: var(--font-display); font-size: 64px; line-height: 1">{r.value}</span>
+                <span style="font-weight: 600">{r.label}</span>
+                <span class="small">{r.source}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {(d.credits.length > 0 || d.quote) && (
+      <section class="wrap section row">
+        {d.credits.length > 0 && (
+          <div class="stack">
+            <h2 class="h-sub" style="color: var(--structure)">Who made it</h2>
+            <dl class="credits">
+              {d.credits.map((c) => <><dt>{c.role}</dt><dd>{c.name}</dd></>)}
+            </dl>
+          </div>
+        )}
+        {d.quote && (
+          <figure class="card" style="margin: 0; padding: 28px">
+            <blockquote style="margin: 0; font-size: 19px; line-height: 1.35; font-weight: 500; color: var(--structure)">{d.quote.text}</blockquote>
+            <figcaption class="small">{d.quote.by}</figcaption>
+          </figure>
+        )}
+      </section>
+    )}
+
+    <section class="rule-top">
+      <div class="wrap section--tight end">
+        {d.note && <p class="small" style="flex: 1 1 320px">{d.note}</p>}
+        <a class="card end__card" href={line.service}>
+          <span class="label">Part of</span>
+          <span class="card__title">{line.label} &rarr;</span>
+        </a>
+        <a class="card end__card on-ink" href={`/project/${next.id}/`} style="border-color: var(--ink)">
+          <span class="label" style="color: var(--structure-light)">Next project</span>
+          <span class="card__title" style="color: var(--primary)">{next.data.title} &rarr;</span>
+        </a>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .cs-hero { width: 100%; max-height: 80vh; object-fit: cover; }
+  .credits { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; }
+  .credits dt { font-weight: 600; }
+  .credits dd { margin: 0; }
+  .end { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: stretch; }
+  .end__card { flex: 1 1 300px; text-decoration: none; color: var(--ink); }
+  .end__card:hover .card__title { text-decoration: underline; }
+</style>

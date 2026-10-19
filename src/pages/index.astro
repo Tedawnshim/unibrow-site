@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { site } from '../data/site';
+import { team, clients, recognition, process } from '../data/studio';
+import { getProjects } from '../lib/content';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured).slice(0, 6);
+
+const logos = import.meta.glob<{ default: ImageMetadata }>('../assets/clients/*.png', { eager: true });
+const logoFor = (file: string) => logos[`../assets/clients/${file}.png`]?.default;
+const homeClients = clients.slice(0, 12);
+---
+<Base
+  title="Unibrow Studio | Film and content studio in Imphal, Manipur"
+  fullTitle
+  description="Brand films, monthly content and social media for businesses in Manipur and across the Northeast. A small studio in Imphal, making films together since 2017."
+>
+  <!-- HERO -->
+  <section class="wrap hero">
+    <div class="stack hero__text">
+      <p class="kicker">Film &amp; content studio · Imphal, Manipur</p>
+      <h1 class="h-hero">Stories that make brands matter.</h1>
+      <p class="lead" style="max-width: 34ch">We make brand films, monthly content and social media for businesses in Manipur and across the Northeast. Since {site.since}.</p>
+      <div class="btn-row" style="margin-top: 8px">
+        <a class="btn btn--blue" href="/contact/">Start a project</a>
+        <a class="btn btn--line" href={site.whatsapp}>Message us on WhatsApp</a>
+      </div>
+      <p class="hand" style="margin-top: 8px">we begin by listening.</p>
+    </div>
+    <div class="hero__reel">
+      <div class="yt" data-id={site.showreelYouTubeId}>
+        <a href={`https://www.youtube.com/watch?v=${site.showreelYouTubeId}`}>Play our showreel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="rule-top rule-bottom">
+    <div class="wrap proof">
+      <div class="stack" style="gap: 6px; flex: 0 1 280px">
+        <p style="font-family: var(--font-display); font-size: 24px; line-height: 1.2">TRUSTED BY {site.brandsWorkedWith} BRANDS AND ORGANISATIONS</p>
+        <a href={site.google.url} style="font-weight: 600">{site.google.rating} out of 5 from {site.google.reviews} Google reviews</a>
+      </div>
+      <ul class="logo-grid" style="flex: 1 1 560px; list-style: none; margin: 0; padding: 0">
+        {homeClients.map((c) => {
+          const img = logoFor(c.file);
+          return img && <li><Image src={img} alt={c.name} width={120} height={120} /></li>;
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <!-- THREE DOORS -->
+  <section class="wrap section">
+    <h2 class="h-section">What we make</h2>
+    <p class="lead" style="margin: 8px 0 32px">Three ways we work with businesses. Pick the one closest to what you need, or just ask.</p>
+    <div class="doors">
+      <a class="door" href="/services/#films">
+        <span class="door__num">01</span>
+        <span class="door__title">Brand films</span>
+        <span>Documentaries, impact and CSR films, corporate films and ads. From the first idea to the final cut.</span>
+        <span class="door__go">Brand films &rarr;</span>
+      </a>
+      <a class="door" href="/services/#content">
+        <span class="door__num">02</span>
+        <span class="door__title">Content &amp; social</span>
+        <span>A monthly team for your content. We plan, shoot, edit and post, so your brand shows up every week.</span>
+        <span class="door__go">Content and social &rarr;</span>
+      </a>
+      <a class="door door--line" href="/services/#web">
+        <span class="door__num">03</span>
+        <span class="door__title">Digital &amp; web</span>
+        <span>Websites, search and analytics, so people can find you and you can see what is working.</span>
+        <span class="small" style="font-weight: 600">Taking our first web clients from December 2026.</span>
+        <span class="door__go">Digital and web &rarr;</span>
+      </a>
+    </div>
+    <p style="margin-top: 20px">We also do <a href="/services/#design">design</a> (identities, posters, packaging, 3D) and make our own <a href="/project/everyday-ordinary-show/">originals</a>.</p>
+  </section>
+
+  <!-- RETAINERS -->
+  <section class="band">
+    <span class="band__num" aria-hidden="true">02</span>
+    <div class="wrap band__inner stack" style="gap: 24px; padding-bottom: 72px">
+      <p style="font-family: var(--font-display); font-size: 24px; letter-spacing: .04em">CONTENT RETAINERS</p>
+      <h2 style="font-size: clamp(36px, 5vw, 64px); line-height: 1; max-width: 18ch">One team for your content, every month.</h2>
+      <p class="lead">Most businesses don't need one big film. They need to show up every week with work that looks like them. We plan the month with you, then shoot, edit and post.</p>
+      <div class="grid grid--small" style="margin-top: 8px">
+        {['The Essentials', 'The Narrative', 'The Growth'].map((name) => (
+          <div class="card" style="background: var(--primary); color: var(--ink); border: 0">
+            <span class="card__title" style="font-size: 28px">{name}</span>
+            <span>[What is included, and who it suits]</span>
+          </div>
+        ))}
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--light" href="/contact/">Ask for a quote</a>
+        <a href="/services/#content" class="arrow-link">See what each one includes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section class="wrap section">
+    <div class="section-head">
+      <h2 class="h-section">Selected work</h2>
+      <a href="/portfolio/" class="arrow-link">See all work</a>
+    </div>
+    <div class="grid">
+      {featured.map((p) => <WorkCard project={p} />)}
+    </div>
+  </section>
+
+  <!-- RECOGNITION -->
+  <section class="on-ink">
+    <div class="wrap recognition">
+      <p style="font-family: var(--font-display); font-size: 24px; color: var(--structure-light)">RECOGNITION</p>
+      {recognition.map((r) => <p>{r}</p>)}
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="wrap section">
+    <h2 class="h-section" style="margin-bottom: 32px">How we work</h2>
+    <ol class="steps">
+      {process.map((s, i) => (
+        <li>
+          <span class="step-title">{String(i + 1).padStart(2, '0')}. {s.title}</span>
+          <span>{s.text}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- TEAM -->
+  <section class="rule-top">
+    <div class="wrap section row" style="align-items: center">
+      <div class="stack" style="flex: 1 1 280px; gap: 12px">
+        <h2 class="h-sub">Who you'll work with</h2>
+        <p>Four of us, based in Imphal. Small on purpose.</p>
+        <a href="/about/" class="arrow-link">About us</a>
+      </div>
+      <ul class="team-strip" style="flex: 2 1 560px">
+        {team.map((p) => (
+          <li>
+            <Image src={p.photo} alt="" width={224} height={224} class="team-strip__photo" />
+            <span style="font-weight: 600">{p.name}</span>
+            <span class="small">{p.role}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; padding-block: clamp(40px, 6vw, 72px) clamp(40px, 6vw, 64px); }
+  .hero__text { flex: 1 1 420px; min-width: 0; gap: 20px; }
+  .hero__reel { flex: 1 1 520px; min-width: 0; }
+  .proof { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; padding-block: 28px; }
+  .doors { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 32px; }
+  .recognition { display: flex; flex-wrap: wrap; gap: 16px 56px; align-items: baseline; padding-block: 48px; }
+  .recognition p:not(:first-child) { flex: 1 1 240px; }
+  .team-strip { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
+  .team-strip li { display: flex; flex-direction: column; gap: 6px; }
+  .team-strip__photo { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; }
+</style>

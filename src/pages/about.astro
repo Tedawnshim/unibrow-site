@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { team, code, recognition } from '../data/studio';
+---
+<Base
+  title="About us: a small film and content studio in Imphal"
+  description="Unibrow Studio is four people in Imphal, Manipur, making films together since 2017. Meet the team, and see how we work."
+>
+  <section class="wrap section row">
+    <div class="stack" style="gap: 18px">
+      <p class="kicker">About us</p>
+      <h1 class="h-page">Small team. Real stories.</h1>
+      <p class="hand">connect. collab. create.</p>
+    </div>
+    <div class="stack about-story" style="flex: 1.3 1 440px; gap: 14px">
+      <p>We have been making films together in Imphal since {site.since}. For years we worked as a small studio, [through good years and hard ones]. In 2026 we started again as {site.legalName}, with a bigger team and a clearer idea of what we are for.</p>
+      <p>We help businesses here grow through honest stories: films, monthly content, and now websites. We also make our own films about everyday life in the Northeast, and we want to train the young people who will tell its stories next.</p>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="wrap section">
+      <h2 class="h-section" style="margin-bottom: 32px">The four of us</h2>
+      <ul class="people">
+        {team.map((p) => (
+          <li class="stack" style="gap: 10px">
+            <Image src={p.photo} alt={p.name} width={400} height={500} class="people__photo" />
+            <span class="h-card" style="font-family: var(--font-display); text-transform: uppercase">{p.name}</span>
+            <span class="label" style="text-transform: none; font-size: 14px">{p.role}</span>
+            <span>{p.line}</span>
+            <span class="small">{p.base}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band">
+    <span class="band__num" aria-hidden="true">04</span>
+    <div class="wrap band__inner stack" style="gap: 32px; padding-bottom: 64px">
+      <h2>How we work</h2>
+      <ol class="steps">
+        {code.map((c, i) => (
+          <li><span class="step-title">{String(i + 1).padStart(2, '0')}. {c.title}</span><span>{c.text}</span></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section row">
+    <div class="stack" style="gap: 14px">
+      <h2 class="h-sub" style="color: var(--structure)">Recognition</h2>
+      <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px">
+        {recognition.map((r) => <li>{r}</li>)}
+        <li>Season partners of Chingkhei Hunba Polo Club for 2026–27, with Eartheners. <a href="/why-we-are-standing-behind-a-polo-club-this-season/">Why we did it</a></li>
+      </ul>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <h2 class="h-sub" style="color: var(--structure)">Where we are</h2>
+      <p>Our studio is in Imphal: {site.address.street}, {site.address.city}, {site.address.region} {site.address.postcode}. We also have a base in {site.otherBase}.</p>
+      <p><a class="arrow-link" href={site.google.url}>Find us on Google Maps</a></p>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="wrap section--tight join">
+      <h2 class="h-sub">Work with us</h2>
+      <p style="flex: 1 1 360px">We grow slowly, on purpose. If you care about honest stories and want to learn on real work, we'd like to hear from you.</p>
+      <a class="arrow-link" href={`mailto:${site.email}?subject=Working%20with%20Unibrow`}>Write to us</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-story { font-size: 18px; line-height: 1.6; }
+  .people { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+  .people__photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .join { display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: center; }
+</style>

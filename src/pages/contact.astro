@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+---
+<Base
+  title="Contact us: start a project with Unibrow Studio"
+  description={`WhatsApp, call or write to Unibrow Studio in Imphal, Manipur. ${site.replyPromise}`}
+  showContact={false}
+>
+  <section class="wrap section stack" style="gap: 18px; padding-bottom: 40px">
+    <p class="kicker">Contact</p>
+    <h1 class="h-page">Let's talk.</h1>
+    <p class="lead">Tell us a little about what you're making. {site.replyPromise}</p>
+  </section>
+
+  <section class="wrap" style="padding-bottom: 48px">
+    <div class="ways">
+      <a class="way way--blue" href={site.whatsapp}>
+        <span class="way__title">WhatsApp</span>
+        <span>The quickest way to reach us.</span>
+      </a>
+      <a class="way" href={site.phoneHref}>
+        <span class="way__title">Call</span>
+        <span>{site.phoneDisplay}</span>
+      </a>
+      <a class="way" href={`mailto:${site.email}`}>
+        <span class="way__title">Email</span>
+        <span>{site.email}</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="wrap section row">
+      <div style="flex: 1.4 1 440px">
+        <ContactForm heading="Or fill this in" extended />
+      </div>
+      <aside class="stack" style="gap: 28px">
+        <div class="stack" style="gap: 10px">
+          <h2 class="h-sub" style="color: var(--structure)">What happens next</h2>
+          <ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px">
+            <li>We reply within 24 hours.</li>
+            <li>A free 30-minute call, by phone or at the studio.</li>
+            <li>A written proposal with scope, timeline and cost.</li>
+          </ol>
+        </div>
+        <div class="stack" style="gap: 10px">
+          <h2 class="h-sub" style="color: var(--structure)">Visit the studio</h2>
+          <p>UNIBROW STUDIO<br />{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postcode}{site.hours && <><br />{site.hours}</>}</p>
+          <p><a class="arrow-link" href={site.google.url}>Directions, and {site.google.rating} out of 5 from {site.google.reviews} Google reviews</a></p>
+          <p class="small">We also have a base in {site.otherBase}.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ways { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .way { border: var(--line); border-radius: var(--radius-card); padding: 24px; display: flex; flex-direction: column; gap: 8px; color: var(--ink); text-decoration: none; }
+  .way:hover { background: var(--ink); color: var(--primary); }
+  .way__title { font-family: var(--font-display); font-size: 28px; text-transform: uppercase; color: var(--structure); }
+  .way:hover .way__title { color: var(--primary); }
+  .way--blue { background: var(--structure); color: var(--primary); border-color: var(--structure); }
+  .way--blue .way__title { color: var(--primary); }
+</style>

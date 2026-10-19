@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, LAUNCHED } from '../data/site';
+---
+<Base title="Thank you" description="Thanks for writing to Unibrow Studio." showContact={false}>
+  <section class="wrap section stack" style="gap: 20px; min-height: 50vh">
+    <p class="kicker">Message sent</p>
+    <h1 class="h-page">Thank you.</h1>
+    <p class="lead">We have your message. {site.replyPromise} If it's urgent, message us on WhatsApp.</p>
+    <div class="btn-row">
+      <a class="btn btn--blue" href={site.whatsapp}>WhatsApp us</a>
+      <a class="btn btn--line" href="/portfolio/">See our work</a>
+    </div>
+    <p class="hand">we begin by listening.</p>
+  </section>
+  {LAUNCHED && (
+    <script is:inline>
+      // Counts an enquiry in Google Analytics (mark "generate_lead" as a key event in GA4).
+      if (window.gtag) window.gtag('event', 'generate_lead', { form: 'contact' });
+    </script>
+  )}
+</Base>

@@ -1,0 +1,64 @@
+---
+// The enquiry form. Netlify Forms collects it and emails contact@unibrow.studio
+// (set the email in Netlify: Site configuration → Forms → Form notifications).
+// It only works once the site is on Netlify; the local preview cannot send it.
+import { serviceOptions, budgetOptions } from '../data/studio';
+
+interface Props { heading?: string; extended?: boolean; }
+const { heading, extended = false } = Astro.props;
+---
+<form class="form" name="contact" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
+  {heading && <h2 class="h-sub full" style="color: var(--structure)">{heading}</h2>}
+  <input type="hidden" name="form-name" value="contact" />
+  <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+  <label class="field">Your name
+    <input type="text" name="name" autocomplete="name" required />
+  </label>
+  <label class="field">Phone or WhatsApp
+    <input type="tel" name="phone" autocomplete="tel" inputmode="tel" />
+  </label>
+  <label class="field">Email
+    <input type="email" name="email" autocomplete="email" required />
+  </label>
+  <label class="field">Business or brand
+    <input type="text" name="brand" autocomplete="organization" />
+  </label>
+  <label class="field">What do you need?
+    <select name="service">
+      {serviceOptions.map((o) => <option>{o}</option>)}
+    </select>
+  </label>
+  <label class="field">Rough budget
+    <select name="budget">
+      {budgetOptions.map((o) => <option>{o}</option>)}
+    </select>
+  </label>
+  {extended && (
+    <>
+      <label class="field">When do you need it?
+        <select name="timeline">
+          <option>This month</option>
+          <option>In 1 to 3 months</option>
+          <option>Later, just exploring</option>
+        </select>
+      </label>
+      <label class="field">How did you find us?
+        <select name="source">
+          <option>Google</option>
+          <option>Instagram</option>
+          <option>A friend or client</option>
+          <option>Other</option>
+        </select>
+      </label>
+    </>
+  )}
+  {!extended && <input type="hidden" name="timeline" value="" />}
+  {!extended && <input type="hidden" name="source" value="" />}
+  <label class="field full">{extended ? 'Tell us a little more' : 'Tell us a little more, and when you need it'}
+    <textarea name="message" rows="4"></textarea>
+  </label>
+  <div class="full btn-row">
+    <button class="btn btn--ink" type="submit">Send</button>
+    <span class="small">We use your details only to reply. <a href="/privacy-policy/">Privacy</a></span>
+  </div>
+</form>

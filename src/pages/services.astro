@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Band from '../components/Band.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { site } from '../data/site';
+import { packageGroups } from '../data/studio';
+import { getProjects } from '../lib/content';
+
+const projects = await getProjects();
+const by = (line: string) => projects.filter((p) => p.data.line === line);
+const films = by('films');
+const social = by('social');
+const design = by('design');
+---
+<Base
+  title="Services: brand films, content, social media and websites in Imphal"
+  description="Brand films, monthly content retainers, social media management, reels, design and websites for businesses in Manipur and the Northeast. Quoted to what you need."
+>
+  <section class="wrap section stack" style="gap: 18px; padding-bottom: 40px">
+    <p class="kicker">Services</p>
+    <h1 class="h-page" style="max-width: 20ch">Films, content and websites for businesses in Manipur.</h1>
+    <p class="lead">Everything is quoted to what you need. Tell us what you're making and we'll come back with a plan and a price within 24 hours.</p>
+    <nav aria-label="On this page" class="jump">
+      <a href="#films">Brand films</a>
+      <a href="#content">Content and social</a>
+      <a href="#web">Digital and web</a>
+      <a href="#design">Design</a>
+    </nav>
+  </section>
+
+  <!-- 01 BRAND FILMS -->
+  <section>
+    <Band num="01" title="Brand films" id="films" />
+    <div class="wrap section stack" style="gap: 40px; padding-top: 48px">
+      <div class="row">
+        <div class="stack">
+          <p class="lead">Films that show what your organisation does and why it matters, made with the people it matters to.</p>
+          <p class="pipes">Documentaries | Impact and CSR films | Corporate films | Ads | Motion graphics</p>
+        </div>
+        <div class="card">
+          <span class="card__title" style="font-size: 20px">Quoted to the brief</span>
+          <span>To quote, we need four things: what the film is for, who will watch it, where it will be shown, and when you need it.</span>
+          <div><a class="btn btn--blue card__cta" href="/contact/">Ask for a quote</a></div>
+        </div>
+      </div>
+      <div class="grid">
+        {films.map((p) => <WorkCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 CONTENT AND SOCIAL -->
+  <section>
+    <Band num="02" title="Content and social" id="content" />
+    <div class="wrap section stack" style="gap: 48px; padding-top: 48px">
+      <p class="lead">Your brand, showing up every week. We plan the month with you, then shoot, edit and post.</p>
+      {packageGroups.map((g) => (
+        <div class="stack">
+          <div class="group-head">
+            <h3 class="h-sub">{g.name}</h3>
+            <span>{g.note}</span>
+          </div>
+          <div class="grid grid--small">
+            {g.items.map((p) => (
+              <div class="card">
+                <span class="card__title">{p.name}</span>
+                <span>{p.line}</span>
+                <a class="arrow-link card__cta" href="/contact/">Ask for a quote</a>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div class="stack">
+        <h3 class="h-sub">Social work we've done</h3>
+        <div class="grid">
+          {social.map((p) => <WorkCard project={p} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 DIGITAL AND WEB -->
+  <section>
+    <Band num="03" title="Digital and web" id="web" />
+    <div class="wrap section stack" style="gap: 32px; padding-top: 48px">
+      <p><span class="pill">Taking our first web clients from December 2026</span></p>
+      <div class="row">
+        <div class="stack">
+          <h3 class="h-sub">Your shadow marketing team</h3>
+          <p class="lead">We work quietly beside you. We make the content, put it in front of the right people, and show you each month what it did.</p>
+          <p class="hand">we tried it on our own businesses first.</p>
+        </div>
+        <div class="grid grid--small" style="align-content: start">
+          <div class="card">
+            <span class="card__title">Websites</span>
+            <span>[What a website includes]</span>
+            <a class="arrow-link card__cta" href="/contact/">Ask for a quote</a>
+          </div>
+          <div class="card">
+            <span class="card__title">Digital marketing</span>
+            <span>Search (SEO), Google Analytics and Meta Pixel set up properly, and organic and paid campaigns. [Monthly scope]</span>
+            <a class="arrow-link card__cta" href="/contact/">Ask for a quote</a>
+          </div>
+        </div>
+      </div>
+      <div class="stack" style="gap: 12px">
+        <h3 class="h-sub" style="font-size: 24px">Where you can see it</h3>
+        <ul class="list">
+          <li><a href="https://earthene.rs">Eartheners</a>, a solar company run by our co-founder DK, where we test our content and web work first</li>
+          <li><a href="/project/chingkhei-hunba-polo-club-website/">Chingkhei Hunba Polo Club</a>: the club's own website and social pages</li>
+          <li>This website</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 DESIGN -->
+  <section>
+    <Band num="04" title="Design" id="design" />
+    <div class="wrap section stack" style="gap: 32px; padding-top: 48px">
+      <div class="group-head" style="justify-content: space-between">
+        <p class="lead">Identities, posters, packaging, illustration and 3D. Quoted to the brief.</p>
+        <a class="btn btn--blue" href="/contact/">Ask for a quote</a>
+      </div>
+      <div class="grid">
+        {design.map((p) => <WorkCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ORIGINALS + NOT SURE -->
+  <section class="rule-top" id="originals">
+    <div class="wrap section row">
+      <div class="stack" style="gap: 12px">
+        <h2 class="h-sub">Our own stories</h2>
+        <p>We also make our own films and series about everyday life in the Northeast. It is where we practise what we sell. Start with <a href="/project/everyday-ordinary-show/">Everyday Ordinary</a>.</p>
+      </div>
+      <div class="card on-ink" style="border-color: var(--ink); padding: 28px">
+        <h2 class="h-sub">Not sure what you need?</h2>
+        <p>Book a free 30-minute call, or send us a message. We'll help you work it out.</p>
+        <div class="btn-row">
+          <a class="btn btn--light" href="/contact/" style="color: var(--ink)">Book a call</a>
+          <a class="btn btn--light-line" href={site.whatsapp}>WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .jump a { border: var(--line); color: var(--ink); padding: 10px 16px; text-decoration: none; font-weight: 500; min-height: 44px; display: inline-flex; align-items: center; }
+  .jump a:hover { background: var(--ink); color: var(--primary); }
+  .group-head { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; }
+  .list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  :global([id]) { scroll-margin-top: 90px; }
+</style>

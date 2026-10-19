@@ -1,0 +1,52 @@
+---
+// Journal posts live at the root (/new-life/), as they did on the old site, so their links keep working.
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { getPosts, formatDate } from '../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.summary,
+  datePublished: d.date.toISOString().slice(0, 10),
+  author: { '@type': 'Organization', name: 'Unibrow Studio', url: `${site.url}/` },
+  publisher: { '@id': `${site.url}/#studio` },
+};
+---
+<Base title={d.title} description={d.description ?? d.summary} image={d.cover} type="article" jsonLd={jsonLd}>
+  <article>
+    <header class="wrap stack" style="gap: 16px; padding-block: 40px 32px">
+      <nav aria-label="Breadcrumb" class="small"><a href="/journal/">Journal</a> / {d.category}</nav>
+      <p class="kicker">{d.category} · <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></p>
+      <h1 class="h-page" style="max-width: 22ch">{d.title}</h1>
+      <p class="lead">{d.summary}</p>
+      {d.facts.length > 0 && (
+        <dl class="facts" style="margin-top: 16px">
+          {d.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
+        </dl>
+      )}
+    </header>
+    <div class="wrap">
+      <Image src={d.cover} alt={d.coverAlt} widths={[640, 1024, 1440]} sizes="(min-width: 1440px) 1248px, 92vw" loading="eager" class="post-hero" />
+    </div>
+    <div class="wrap section">
+      <div class="prose"><Content /></div>
+      <p style="margin-top: 48px"><a class="arrow-link" href="/journal/">More from the journal</a></p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post-hero { width: 100%; max-height: 75vh; object-fit: cover; }
+</style>

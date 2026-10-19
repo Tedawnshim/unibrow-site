@@ -1,0 +1,77 @@
+---
+import logo from '../assets/brand/unibrow-studio-logo.svg';
+import ContactForm from './ContactForm.astro';
+import { site, nav } from '../data/site';
+
+interface Props { showContact?: boolean; }
+const { showContact = true } = Astro.props;
+const year = new Date().getFullYear();
+---
+{showContact && (
+  <section class="rule-top" aria-labelledby="talk">
+    <div class="wrap section row">
+      <div class="stack" style="flex: 1 1 320px">
+        <h2 id="talk" class="h-section" style="font-size: clamp(36px, 5vw, 64px); line-height: 1">Tell us what you're making.</h2>
+        <p class="lead">{site.replyPromise}</p>
+        <div class="btn-row"><a class="btn btn--blue" href={site.whatsapp}>Message us on WhatsApp</a></div>
+        <p>or call <a href={site.phoneHref}>{site.phoneDisplay}</a><br />or write to <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p class="small">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postcode}{site.hours && <><br />{site.hours}</>}</p>
+        <p class="hand">and a base in {site.otherBase}.</p>
+      </div>
+      <div style="flex: 1.4 1 420px">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+)}
+
+<footer class="site-footer on-blue">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__cols">
+      <div class="stack" style="gap: 14px">
+        <img src={logo.src} width="88" height="88" alt="Unibrow Studio" />
+        <p style="font-family: var(--font-display); font-size: 24px; letter-spacing: .04em">CONNECT. COLLAB. CREATE.</p>
+      </div>
+      <nav aria-label="Footer" class="site-footer__links">
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        <a href="/contact/">Contact</a>
+      </nav>
+      <div class="site-footer__links">
+        <a href={site.social.instagram}>Instagram</a>
+        <a href={site.social.youtube}>YouTube</a>
+        <a href={site.google.url}>Google reviews</a>
+        <a href={site.whatsapp}>WhatsApp</a>
+      </div>
+      <div class="site-footer__links small">
+        <span>Imphal, Manipur · {site.otherBase}</span>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={site.phoneHref}>{site.phoneDisplay}</a>
+      </div>
+    </div>
+    <div class="site-footer__legal small">
+      <span>Unibrow Studio is the trading name of {site.legalName}</span>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/terms-and-conditions/">Terms</a>
+      <a href="/accessibility/">Accessibility</a>
+      <span class="site-footer__copy">© {year}</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href={site.whatsapp}>WhatsApp us</a>
+
+<style>
+  .site-footer__inner { padding-block: 56px 32px; display: flex; flex-direction: column; gap: 40px; }
+  .site-footer__cols { display: grid; gap: 32px 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+  .site-footer__links { display: flex; flex-direction: column; gap: 10px; }
+  .site-footer__legal { border-top: 1.5px solid var(--primary); padding-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .site-footer__copy { margin-left: auto; }
+  .wa-float {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 40;
+    background: var(--ink); color: var(--primary); text-align: center; font-weight: 600; text-decoration: none;
+    padding: 14px; min-height: 48px;
+  }
+  .wa-float:hover { background: var(--structure); color: var(--primary); }
+  @media (min-width: 960px) { .wa-float { display: none; } }
+  @media (max-width: 959px) { :global(body) { padding-bottom: 80px; } }
+</style>

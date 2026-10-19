@@ -1,0 +1,12 @@
+---
+// The design system's section band: a blue strip with the title bottom-left and a big numeral.
+interface Props { num?: string; title: string; id?: string; level?: 'h1' | 'h2'; }
+const { num, title, id, level = 'h2' } = Astro.props;
+const H = level;
+---
+<div class="band" id={id}>
+  {num && <span class="band__num" aria-hidden="true">{num}</span>}
+  <div class="wrap band__inner">
+    <H>{title}</H>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { getPosts, formatDate } from '../lib/content';
+
+const posts = await getPosts();
+---
+<Base title="Journal: stories, ideas and updates" description="Behind the work, between the frames: thoughts on film, design, culture, and what we're building at Unibrow Studio in Imphal.">
+  <section class="wrap section stack" style="gap: 24px">
+    <p class="kicker">Journal</p>
+    <h1 class="h-page">Stories, ideas &amp; updates</h1>
+    <p class="lead">Behind the work, between the frames: film, design, culture, and what we're building at Unibrow.</p>
+    <div class="grid" style="margin-top: 16px">
+      {posts.map((p, i) => (
+        <a class="work-card" href={`/${p.id}/`}>
+          <div class="work-card__img"><Image src={p.data.cover} alt="" widths={[400, 700, 1000]} sizes="(min-width: 1100px) 400px, (min-width: 700px) 50vw, 100vw" loading={i < 3 ? 'eager' : 'lazy'} /></div>
+          <span class="label">{p.data.category}</span>
+          <span class="work-card__title">{p.data.title}</span>
+          <span class="small">{formatDate(p.data.date)}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

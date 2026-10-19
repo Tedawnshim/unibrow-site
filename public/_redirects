@@ -1,0 +1,19 @@
+# Old WordPress addresses -> new pages (301 = moved for good)
+/team                                        /about/                                   301
+/team/                                       /about/                                   301
+/project                                     /portfolio/                               301
+/project/                                    /portfolio/                               301
+/project/page/*                              /portfolio/                               301
+/project/josa-organic-sanitary-pads/         /portfolio/                               301
+/project/josa-organis-sanitary-pads/         /portfolio/                               301
+/project/stonewood-resort-and-hotel/         /portfolio/                               301
+/project/kelvin-cinema-festival-2024/        /project/kelvin-cinema-festival-2023/     301
+/author/*                                    /journal/                                 301
+/category/*                                  /journal/                                 301
+/tag/*                                       /journal/                                 301
+/feed                                        /journal/                                 301
+/feed/                                       /journal/                                 301
+/home                                        /                                         301
+/home/                                       /                                         301
+/wp-admin/*                                  /                                         301
+/wp-login.php                                /                                         301
