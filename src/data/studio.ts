@@ -62,7 +62,7 @@ export const clients = [
 
 export const recognition = [
   'Documentary shortlisted, Brahmaputra Valley Film Festival, 2018',
-  'Best Sound Design for the feature film Meitan Araba (Ranju)',
+  'Best Sound Design for the feature film Meitan Araba (Khangembam Ranju)',
   'We started and ran the Unibrow Film Festival in 2021, for films made on mobile phones',
 ];
 

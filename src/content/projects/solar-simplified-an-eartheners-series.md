@@ -17,7 +17,6 @@ facts:
     value: "Direction, Scripting, Production, Editing"
   - label: "Platform"
     value: "Instagram"
-note: "Eartheners is run by our co-founder, DK. We say so because it is where we try new ideas first."
 featured: true
 order: 1
 ---
